@@ -1,0 +1,22 @@
+{
+  "name": "cloudinary",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PauliPoutanen/projekti.git"
+  },
+  "author": "Pauli",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PauliPoutanen/projekti/issues"
+  },
+  "homepage": "https://github.com/PauliPoutanen/projekti#readme",
+  "dependencies": {
+    "react-router-dom": "^5.3.0"
+  }
+}
