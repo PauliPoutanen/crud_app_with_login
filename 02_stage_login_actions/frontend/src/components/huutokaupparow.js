@@ -13,7 +13,7 @@ const HuutoKauppaRow = (props) => {
             onClick={() => props.changeMode("removehuutokauppa", props.index)}>Poista
             </button></td>
 
-            <td><button className="btn btn-secondary"
+            <td><button className="btn btn-primary"
             onClick={()=>props.editHuutokauppa(props.tapahtuma)}>Muokkaa
             </button></td>
 </tr>

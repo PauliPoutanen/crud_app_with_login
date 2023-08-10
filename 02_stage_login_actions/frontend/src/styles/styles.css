@@ -1,0 +1,48 @@
+/* styles.css */
+
+.form-container {
+    background-color: #d5e7f7; /* Light blue color */
+    margin: auto;
+    width: 80%; /* Adjust form width as needed */
+    text-align: center;
+    padding: 20px;
+    border-radius: 12px; /* Make the form edges rounder */
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .date-inputs {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+  }
+  
+  .date-input {
+    margin-top: 10px;
+  }
+  
+  @media (min-width: 768px) {
+    .date-inputs {
+      flex-direction: row;
+      flex-wrap: wrap; /* Allow date inputs to wrap on larger screens */
+      justify-content: space-between;
+    }
+  
+    .date-input {
+      flex-basis: calc(50% - 10px); /* Each input takes 50% width minus spacing */
+      margin-top: 0;
+    }
+  }
+  
+  .tapahtumatiedot-textarea {
+    width: 100%;
+    margin-top: 10px;
+    resize: vertical;
+    min-height: 120px;
+    border-radius: 8px;
+    padding: 10px;
+  }
+  
+  .btn-primary {
+    border-radius: 8px; /* Rounder button edges */
+  }
+  

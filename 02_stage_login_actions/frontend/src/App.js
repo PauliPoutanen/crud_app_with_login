@@ -1,15 +1,19 @@
 /* eslint-disable no-fallthrough */
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-
 import LoginPage from './components/loginpage';
 import Navbar from "./components/navbar";
 import NewHuutoKauppaForm from './components/newhuutokauppaform';
+import HuutokauppaLista from './components/auctionslist'
 import AdminPage from './components/adminPage';
+
+// EDITOINTI EI TOIMI // .
 
 function App() {
   const [state, setState] = useState({
     list: [],
+    mode: "addhuutokauppa",
+		editauc: {},
     isLogged: false,
     token: "",
     loading: false,
@@ -41,17 +45,17 @@ function App() {
   };
 
   const setLoading = (loading) => {
-    setState((prevState) => ({
-      ...prevState,
+    setState((state) => ({
+      ...state,
       loading,
       error: ""
     }));
   };
 
   const setError = (error) => {
-    setState((prevState) => {
-      const tempState = {
-        ...prevState,
+    setState((state) => {
+      let tempState = {
+        ...state,
         error
       };
       saveToStorage(tempState);
@@ -60,7 +64,7 @@ function App() {
   };
 
   const clearState = (error) => {
-    const newState = {
+    let state = {
       list: [],
       isLogged: false,
       loading: false,
@@ -68,8 +72,8 @@ function App() {
       error:error,
       user: ""
     };
-    saveToStorage(newState);
-    setState(newState);
+    saveToStorage(state);
+    setState(state);
   };
 
 useEffect(()=>{
@@ -103,14 +107,13 @@ switch(urlRequest.action){
       saveToStorage(tempState)
       return tempState
     })
-
     return
     case "addhuutokauppa":
       case "removehuutokauppa":
-        case "edithuutokauppa":
-          getList()
-          return
-          case "register":
+          case "edithuutokauppa":
+            getList()
+              return;
+            case "register":
             setError("Register succesfull")
             return
             case "login":
@@ -214,6 +217,61 @@ fetchData()
     });
   };
 
+  
+
+  const addHuutokauppa = (huutokauppa) => {
+    setUrlRequest({
+      url: "/api/huutokaupat",
+      request: {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "token":state.token
+        },
+        body: JSON.stringify(huutokauppa)
+      },
+      action: "addhuutokauppa"
+    });
+  };
+
+  const removeHuutokauppa = (id) => {
+    setUrlRequest({
+      url: "/api/huutokaupat/" + id,
+      request: {
+        method: "DELETE",
+        headers: {
+          "token": state.token
+        }
+      },
+      action: "removehuutokauppa"
+    });
+  };
+	const changeToEditMode =(editauc) => {
+		setState((state)=> {
+		return {
+			...state,
+			mode:"edithuutokauppa",
+			editauc:editauc
+		}
+		})
+	}
+
+
+  const editHuutokauppa = (huutokauppa) => {
+    setUrlRequest({
+      url: "/api/huutokaupat/"+huutokauppa._id,
+      request: {
+        method: "PUT",
+        headers: {
+          "token":state.token,
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify(huutokauppa)
+      },
+      action: "edithuutokauppa"
+    });
+  };
+
   const register = (user) => {
     setUrlRequest({
       url: "/register",
@@ -240,8 +298,8 @@ fetchData()
       },
       action: "login"
     });
-    setState((prevState) => ({
-      ...prevState,
+    setState((state) => ({
+      ...state,
       user: user.username
     }));
   };
@@ -252,65 +310,14 @@ fetchData()
       request: {
         method: "POST",
         headers: {
-          token: state.token
+          "token": state.token
         }
       },
       action: "logout"
     });
   };
 
-  const addHuutokauppa = (huutokauppa) => {
-    setUrlRequest({
-      url: "/api/huutokaupat",
-      request: {
-        method: "POST",
-        headers: {
-          token: state.token,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(huutokauppa)
-      },
-      action: "addhuutokauppa"
-    });
-  };
-
-  const removeHuutokauppa = (id) => {
-    setUrlRequest({
-      url: "/api/huutokaupat/" + id,
-      request: {
-        method: "DELETE",
-        headers: {
-          token: state.token
-        }
-      },
-      action: "removehuutokauppa"
-    });
-  };
-
-  const changeToEditMode = (editauc) => {
-    setState((prevState) => ({
-      ...prevState,
-      mode: "edit",
-      editauc:editauc
-    }));
-  };
-
-  const editHuutokauppa = (huutokauppa) => {
-    setUrlRequest({
-      url: "/api/huutokaupat/" + huutokauppa._id,
-      request: {
-        method: "PUT",
-        headers: {
-          token: state.token,
-          "Content-type": "application/json"
-        },
-        body: JSON.stringify(huutokauppa)
-      },
-      action: "edithuutokauppa"
-    });
-  };
-
-  let message = <h4>*</h4>;
+  let message = <h4></h4>;
   if (state.loading) {
     message = <h4>Loading ...</h4>;
   }
@@ -326,7 +333,16 @@ fetchData()
           {message}
         </div>
         <Routes>
-          <Route path="/" element={<AdminPage list={state.list} removeHuutokauppa={removeHuutokauppa} editHuutokauppa={editHuutokauppa} changeToEditMode={changeToEditMode} />} />
+          <Route path="/" element={
+          <AdminPage 
+          list={state.list} 
+          removeHuutokauppa={removeHuutokauppa} 
+          editHuutokauppa={editHuutokauppa} 
+          addHuutokauppa={addHuutokauppa} 
+          editauc={state.editauc} 
+          changeToEditMode={changeToEditMode}
+         />} />
+      
           <Route path="/form" element={<NewHuutoKauppaForm addHuutokauppa={addHuutokauppa} />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

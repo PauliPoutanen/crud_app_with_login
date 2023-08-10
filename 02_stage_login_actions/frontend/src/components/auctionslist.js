@@ -27,7 +27,9 @@ const HuutokauppaLista = (props) => {
 
     if (mode ==="cancel"){
       setState({
-        removeIndex:-1
+        removeIndex:-1,				
+        editIndex:-1
+
       })
     }
   }
@@ -43,11 +45,12 @@ const HuutokauppaLista = (props) => {
     changeMode("cancel")
   }
 
+
 let tapahtumat = props.list.map((tapahtuma, index) =>{
   
   if (index ===state.removeIndex){
     return(
-      <RemoveHuutokauppa key={tapahtuma._id} tapahtuma={tapahtuma} changeMode={changeMode} removeHuutokauppa={removeHuutokauppa} editHuutokauppa={editHuutokauppa} />
+      <RemoveHuutokauppa key={tapahtuma._id} tapahtuma={tapahtuma} changeMode={changeMode} removeHuutokauppa={removeHuutokauppa} />
     )
   }
   
@@ -57,7 +60,7 @@ let tapahtumat = props.list.map((tapahtuma, index) =>{
     )
   }
   return (
-    <HuutoKauppaRow key={tapahtuma._id} tapahtuma={tapahtuma} index={index} changeMode={changeMode} editHuutokauppa={editHuutokauppa}/>
+    <HuutoKauppaRow key={tapahtuma._id} tapahtuma={tapahtuma} index={index} changeMode={changeMode} editHuutokauppa={editHuutokauppa} />
   )
 })
 
