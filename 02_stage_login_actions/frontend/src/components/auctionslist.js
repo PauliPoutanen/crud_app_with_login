@@ -27,9 +27,7 @@ const HuutokauppaLista = (props) => {
 
     if (mode ==="cancel"){
       setState({
-        removeIndex:-1,				
-        editIndex:-1
-
+        removeIndex:-1
       })
     }
   }

@@ -155,7 +155,4 @@ return (
 
 )
 }
-
-//<NewAuctionForm addEvent={addEvent} mode={state.mode} editauc={state.editauc} editEvent={editEvent}  />
-//<AuctionsList list={state.list} removeEvent={removeEvent} changeToEditMode={changeToEditMode} />
 export default App

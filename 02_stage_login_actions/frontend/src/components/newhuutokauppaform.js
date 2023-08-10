@@ -39,6 +39,7 @@ setButtonState({buttonName:"Hyväksy muutokset"
 }, [mode])
 
 const onDateChange = (date, field) => {
+  console.log("date", state)
   setState((prevState) => ({
     ...prevState,
     [field]: date ? moment(date).toDate() : null
@@ -96,10 +97,8 @@ const onSubmit = (event) => {
 
     alert(errorText);
   } else {
-    // ***** Tulaan linkin kautta tälle sivulle, niin mode arvoa ei ole määritelty. Pitää korjta! *****
     if (mode === "addhuutokauppa" | typeof mode === 'undefined') {
-      addHuutokauppa(state) //Tallenetaan annetut input kenttien arvot!
-
+      addHuutokauppa(state) 
       alert("Huutokaupan tiedot lisätty");
     }
     else {
@@ -114,7 +113,7 @@ const onSubmit = (event) => {
       alert("Huutokaupan tiedot päivitetty");
     }
 
-    setState(initialState) //Tyhjentää anetut input kenttien arvot!
+setState(initialState)
   }
 }
 
